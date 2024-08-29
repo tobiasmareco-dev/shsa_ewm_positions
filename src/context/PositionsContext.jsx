@@ -11,7 +11,7 @@ export const PositionProvider = ({ children }) => {
         const getPositionsAPI = async () => {
             try {
                 // const { data } = await axiosClient('/positions');
-                const res = await fetch('http://192.168.113.2:5555/positions');
+                const res = await fetch('http://192.168.113.2:5555/positions', { mode: "no-cors" });
                 const data = await res.json();
                 setPositions(data);
             } catch (error) {
