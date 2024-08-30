@@ -10,9 +10,7 @@ export const PositionProvider = ({ children }) => {
     useEffect(() => {
         const getPositionsAPI = async () => {
             try {
-                // const { data } = await axiosClient('/positions');
-                const res = await fetch('http://192.168.113.2:5555/positions', { mode: "no-cors" });
-                const data = await res.json();
+                const { data } = await axiosClient('/positions');
                 setPositions(data);
             } catch (error) {
                 return error;
