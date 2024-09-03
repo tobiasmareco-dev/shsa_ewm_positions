@@ -8,20 +8,23 @@ function ModalAdd({ modalStatus, unit, details }) {
     const [cantidad, setCantidad] = useState('');
     const cantidadInput = useRef(null);
     const huInput = useRef(null);
-    const handleCreateDetail = async (e) => {
+    const handleCreateDetail = (e) => {
         e.preventDefault();
         if (hu == '' || cantidad == '') {
             setError(true)
             setMessage('Complete campos obligatorios')
             return;
         }
-        const result = await createDetailsUnit(unit, hu, cantidad)
+        const result = createDetailsUnit(unit, hu, cantidad);
+        console.log(result.error)
+        if (!result?.error) {
+            modalStatus(false);
+            return
+        }
         if (Boolean(result?.error)) {
             setError(true);
-            setMessage('HU ya se ha agregado.')
-            return;
+            setMessage('HU ya se ha creado.');
         }
-        modalStatus(false);
     };
 
     const handleEditHU = (e) => {

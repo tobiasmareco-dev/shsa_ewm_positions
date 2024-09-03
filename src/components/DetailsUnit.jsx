@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { PositionContext } from '../context/PositionsContext'
 import ModalAdd from './ModalAdd';
 
@@ -6,12 +6,10 @@ function DetailsUnit({ unit }) {
     const [modalAdd, setModalAdd] = useState(false);
     const { getDetailsUnit, details, positions, deleteDetailItem } = useContext(PositionContext);
     const headerUnit = positions?.filter(item => item.unit == unit);
-    getDetailsUnit(unit);
-
+    const res = getDetailsUnit(unit);
     const handleDeleteDetail = (hu) => {
         deleteDetailItem(hu);
     }
-
     return (
         <>
             <section className='relative flex justify-end right-2'>
@@ -23,6 +21,7 @@ function DetailsUnit({ unit }) {
                     <div className='flex flex-col space-y-1 justify-start pb-2'>
                         <p className='text-xs font-semibold opacity-55'>MATERIAL: {headerUnit[0]?.material} - {headerUnit[0]?.denom}</p>
                         <p className='text-xs font-semibold opacity-55'>LOTE: {headerUnit[0]?.lote}</p>
+                        <span className='font-bold text-green-700'>STOCK: {Number(headerUnit[0]?.stock).toLocaleString('es-ES')} {headerUnit[0]?.um}</span>
                     </div>
                 </>
                 ) : (<h3 className='text-center font-bold text-gray-300 py-2'>No existen HU cargadas.</h3>)}
@@ -35,6 +34,7 @@ function DetailsUnit({ unit }) {
                     </div>
                 )
             })}
+            <p className={`text-center font-semibold ${Number(res).toLocaleString('es-ES') === Number(headerUnit[0]?.stock).toLocaleString('es-ES') ? 'text-green-700' : 'text-red-700'}`}>TOTAL HU: {(res).toLocaleString('es-ES')}</p>
             {modalAdd && (
                 <ModalAdd modalStatus={setModalAdd} unit={unit} details={headerUnit[0]} />
             )}
